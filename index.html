@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miguel Oracle — Cost Tracking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #5645d4;
+      --primary-pressed: #4534b3;
+      --brand-navy: #0a1530;
+      --brand-purple: #7b3ff2;
+      --brand-orange: #dd5b00;
+      --brand-pink: #ff64c8;
+      --brand-teal: #2a9d99;
+      --brand-green: #1aae39;
+    }
+
+    :root, [data-theme="light"] {
+      --tint-peach: #ffe8d4;
+      --tint-rose: #fde0ec;
+      --tint-mint: #d9f3e1;
+      --tint-lavender: #e6e0f5;
+      --tint-sky: #dcecfa;
+      --tint-yellow: #fef7d6;
+      --canvas: #ffffff;
+      --surface: #f6f5f4;
+      --surface-soft: #fafaf9;
+      --hairline: #e5e3df;
+      --hairline-soft: #ede9e4;
+      --ink: #1f1f1d;
+      --ink-mute: #6a6a64;
+      --feature-ink: #0a1530;
+      --row-hover: #f8f5fc;
+    }
+
+    [data-theme="dark"] {
+      --tint-peach: #3a2a1f;
+      --tint-rose: #3a2030;
+      --tint-mint: #1f3a2a;
+      --tint-lavender: #2a2540;
+      --tint-sky: #1f2a3a;
+      --tint-yellow: #3a3520;
+      --canvas: #191919;
+      --surface: #252525;
+      --surface-soft: #2f2f2f;
+      --hairline: #383838;
+      --hairline-soft: #2f2f2f;
+      --ink: #ededed;
+      --ink-mute: #9b9b9b;
+      --feature-ink: #ededed;
+      --row-hover: #2a2540;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --tint-peach: #3a2a1f;
+        --tint-rose: #3a2030;
+        --tint-mint: #1f3a2a;
+        --tint-lavender: #2a2540;
+        --tint-sky: #1f2a3a;
+        --tint-yellow: #3a3520;
+        --canvas: #191919;
+        --surface: #252525;
+        --surface-soft: #2f2f2f;
+        --hairline: #383838;
+        --hairline-soft: #2f2f2f;
+        --ink: #ededed;
+        --ink-mute: #9b9b9b;
+        --feature-ink: #ededed;
+        --row-hover: #2a2540;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', 'IBM Plex Sans Thai', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--ink);
+      background: var(--canvas);
+      line-height: 1.55;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body, .card, .table-wrap, table, thead, tbody, td, th, .footer, .hero, .day-row, .pricing-card, .compare-card {
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 64px 32px;
+    }
+
+    .hero {
+      background: var(--brand-navy);
+      color: white;
+      padding: 80px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 30%, var(--brand-purple) 0%, transparent 20%),
+        radial-gradient(circle at 80% 60%, var(--brand-pink) 0%, transparent 18%),
+        radial-gradient(circle at 50% 90%, var(--brand-teal) 0%, transparent 15%);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: rgba(255,255,255,0.7);
+      margin: 0 0 32px;
+      max-width: 640px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    .hero-stat {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 8px;
+    }
+
+    .hero-stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    section { margin-bottom: 56px; }
+
+    .section-eyebrow {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--tint-lavender);
+      color: var(--primary);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin: 0 0 24px;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin: 32px 0 12px;
+    }
+
+    p { color: var(--ink); margin: 0 0 16px; }
+    .mute { color: var(--ink-mute); }
+
+    .card {
+      background: var(--canvas);
+      border: 1px solid var(--hairline);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .pricing-card {
+      border-radius: 12px;
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+    }
+
+    .pricing-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-mute);
+      margin-bottom: 6px;
+    }
+
+    .pricing-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--feature-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .pricing-unit {
+      font-size: 12px;
+      color: var(--ink-mute);
+      margin-top: 2px;
+    }
+
+    .table-wrap {
+      border: 1px solid var(--hairline);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--canvas);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead { background: var(--surface); }
+
+    th {
+      text-align: left;
+      padding: 14px 16px;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-mute);
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    td {
+      padding: 16px;
+      border-bottom: 1px solid var(--hairline-soft);
+      vertical-align: top;
+    }
+
+    tbody tr:last-child td { border-bottom: none; }
+
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    td.cost { font-weight: 600; }
+    td.date { font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+
+    .day-row { cursor: pointer; }
+    .day-row:hover { background: var(--row-hover); }
+    .day-row td:last-child::after {
+      content: '→';
+      color: var(--primary);
+      font-weight: 700;
+      margin-left: 8px;
+      opacity: 0.5;
+      transition: transform 0.2s, opacity 0.2s;
+      display: inline-block;
+    }
+    .day-row:hover td:last-child::after {
+      opacity: 1;
+      transform: translateX(4px);
+    }
+
+    tfoot td {
+      background: var(--surface);
+      font-weight: 700;
+      border-top: 2px solid var(--hairline);
+      border-bottom: none;
+      font-size: 15px;
+    }
+    tfoot td.cost { color: var(--primary); }
+
+    ul.clean { list-style: none; padding: 0; margin: 0; }
+    ul.clean li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--hairline-soft);
+      display: flex;
+      gap: 12px;
+      align-items: start;
+    }
+    ul.clean li:last-child { border-bottom: none; }
+    ul.clean .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--primary);
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .compare-card {
+      border-radius: 16px;
+      padding: 28px;
+      border: 1px solid var(--hairline);
+    }
+    .compare-card.max-plan {
+      background: var(--tint-mint);
+      border-color: transparent;
+    }
+    .compare-card.pay-use {
+      background: var(--tint-peach);
+      border-color: transparent;
+    }
+    .compare-card-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--feature-ink);
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+    .compare-card-value {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--feature-ink);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .compare-card-sub {
+      font-size: 13px;
+      color: var(--feature-ink);
+      opacity: 0.7;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 16px;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.1); }
+
+    .footer {
+      border-top: 1px solid var(--hairline);
+      padding: 32px;
+      text-align: center;
+      color: var(--ink-mute);
+      font-size: 13px;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      background: var(--surface);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 640px) {
+      .hero { padding: 48px 20px; }
+      .hero h1 { font-size: 36px; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .container { padding: 40px 20px; }
+      h2 { font-size: 24px; }
+      th, td { padding: 12px; font-size: 13px; }
+      .pricing-grid { grid-template-columns: 1fr 1fr; }
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<button id="theme-toggle" aria-label="Toggle theme" style="
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  border-radius: 100px;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+">
+  <span id="theme-icon">🌙</span>
+</button>
+
+<!-- ============== MAIN VIEW ============== -->
+<div id="view-main">
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">📊 Cost Tracking</span>
+    <h1>Miguel Oracle<br>Token Usage</h1>
+    <p class="hero-sub">รายงานการใช้ Claude Code — รายวัน รวมยอด คลิกแต่ละวันเพื่อดูรายละเอียด</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-label">Days</div>
+        <div class="hero-stat-value">4</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">Total Tokens</div>
+        <div class="hero-stat-value">2.53B</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">Cost (est.)</div>
+        <div class="hero-stat-value">$6,923</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <section>
+    <span class="section-eyebrow">💵 API Pricing</span>
+    <h2>Anthropic Opus 4.7</h2>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-label">Input</div>
+        <div class="pricing-value">$15</div>
+        <div class="pricing-unit">per 1M tokens</div>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-label">Output</div>
+        <div class="pricing-value">$75</div>
+        <div class="pricing-unit">per 1M tokens</div>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-label">Cache Write</div>
+        <div class="pricing-value">$18.75</div>
+        <div class="pricing-unit">per 1M tokens</div>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-label">Cache Read</div>
+        <div class="pricing-value">$1.50</div>
+        <div class="pricing-unit">per 1M tokens</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="section-eyebrow">📅 Daily Breakdown</span>
+    <h2>การใช้รายวัน</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th class="num">Cost (est.)</th>
+            <th class="num">Tokens</th>
+            <th>งานหลัก</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="day-row" data-day="2026-05-27">
+            <td class="date">2026-05-27</td>
+            <td class="num cost">$1,058</td>
+            <td class="num">620M</td>
+            <td>Oracle birth (Miguel + content-channel setup) · content pipeline · exam prep</td>
+          </tr>
+          <tr class="day-row" data-day="2026-05-28">
+            <td class="date">2026-05-28</td>
+            <td class="num cost">$4,332</td>
+            <td class="num">1,273M</td>
+            <td>freelance deal closed · client website · editor-tool setup · video tooling</td>
+          </tr>
+          <tr class="day-row" data-day="2026-05-29">
+            <td class="date">2026-05-29</td>
+            <td class="num cost">$1,534</td>
+            <td class="num">637M</td>
+            <td>Telegram bot · LINE bot · unified-memory · pm2 · cost tracking · HTML dashboard</td>
+          </tr>
+          <tr class="day-row" data-day="2026-05-30">
+            <td class="date">2026-05-30</td>
+            <td class="num cost">—</td>
+            <td class="num">—</td>
+            <td>Session 4 close · Telegram + LINE + shared-core wrap-up (in progress)</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Total · 4 days</td>
+            <td class="num cost">$6,923</td>
+            <td class="num">2,530M</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <span class="section-eyebrow">⚡ Optimize Next Time</span>
+    <h2>วิธีลด token ใน session ต่อไป</h2>
+    <ul class="clean">
+      <li><span class="dot" style="background:var(--brand-green)"></span><span>Smart cron suppression — ถ้า peek เห็น "Silent" ซ้ำ ไม่ต้อง log ทุกครั้ง</span></li>
+      <li><span class="dot" style="background:var(--brand-green)"></span><span>Shorter peek prompt — ปัจจุบัน ~30 lines × 80 fires = cache reads เยอะ</span></li>
+      <li><span class="dot" style="background:var(--brand-green)"></span><span>ใช้ <code>/clear</code> ระหว่าง idle phases สำหรับ session ที่ไม่ active</span></li>
+      <li><span class="dot" style="background:var(--brand-green)"></span><span>Selective subagent spawning — verify need ก่อน spawn, ไม่ใช่ spawn แล้วค่อยคิด</span></li>
+      <li><span class="dot" style="background:var(--brand-green)"></span><span>Investigate marathon sessions — sessions ที่ &gt; 10 ชม. กิน cache reads แบบ exponential</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="section-eyebrow">🔄 Auto-Update</span>
+    <h2>Protocol ปิด session</h2>
+    <div class="card">
+      <ul class="clean">
+        <li><span class="dot"></span><span><strong>1. /rrr</strong> — retrospective + lesson + metrics + self-audit</span></li>
+        <li><span class="dot"></span><span><strong>2. /forward</strong> — handoff + pending list</span></li>
+        <li><span class="dot"></span><span><strong>3. 💰 Cost summary</strong> — update file นี้ + recompute totals</span></li>
+        <li><span class="dot"></span><span><strong>4. Commit</strong> — auto-chain, ไม่รอ approve</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section style="margin-bottom: 0;">
+    <span class="section-eyebrow">📦 Plan</span>
+    <h2>Max Plan vs Pay-Per-Use</h2>
+    <div class="compare-grid">
+      <div class="compare-card max-plan">
+        <div class="compare-card-label">Max Plan (paid)</div>
+        <div class="compare-card-value">$200<span style="font-size:18px;font-weight:600;opacity:0.6">/mo</span></div>
+        <div class="compare-card-sub">Flat fee — ไม่ขึ้นกับ usage</div>
+      </div>
+      <div class="compare-card pay-use">
+        <div class="compare-card-label">Pay-Per-Use (estimated)</div>
+        <div class="compare-card-value">$6,923</div>
+        <div class="compare-card-sub">ถ้าจ่ายตาม API rate ใน 4 วัน</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</div>
+
+<!-- ============== DAILY DETAIL VIEWS ============== -->
+
+<div id="view-2026-05-27" class="hidden">
+  <header class="hero">
+    <div class="hero-inner">
+      <button class="back-btn" onclick="showMain()">← กลับ</button>
+      <span class="hero-eyebrow">📅 Daily Detail</span>
+      <h1>2026-05-27</h1>
+      <p class="hero-sub">Oracle birth + content pipeline + exam prep plan</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Instances</div>
+          <div class="hero-stat-value">8</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Tokens</div>
+          <div class="hero-stat-value">620M</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Cost (est.)</div>
+          <div class="hero-stat-value">$1,058</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <span class="section-eyebrow">📋 Instances</span>
+      <h2>ทุก instance ของวันนี้</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Started</th>
+              <th>Instance</th>
+              <th>Duration</th>
+              <th class="num">Tokens</th>
+              <th class="num">Cost</th>
+              <th>งาน</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>01:17</td><td><code>0cb3a19c</code></td><td>8h 1m</td><td class="num">177M</td><td class="num cost">$319.58</td><td>Oracle birth — Miguel + content-channel setup</td></tr>
+            <tr><td>18:27</td><td><code>e06c68c6</code></td><td>13h 47m</td><td class="num">440M</td><td class="num cost">$726.82</td><td>content pipeline + exam prep</td></tr>
+            <tr><td>22:09</td><td><code>45de09fb</code></td><td>&lt;1m</td><td class="num">0.2M</td><td class="num cost">$1.29</td><td>Short test instance</td></tr>
+            <tr><td>22:21</td><td><code>80bd7ce1</code></td><td>&lt;1m</td><td class="num">0.2M</td><td class="num cost">$0.98</td><td>Short test instance</td></tr>
+            <tr><td>22:29</td><td><code>77c5d588</code></td><td>&lt;1m</td><td class="num">0.5M</td><td class="num cost">$2.32</td><td>Short test instance</td></tr>
+            <tr><td>23:08</td><td><code>90d33c74</code></td><td>22m</td><td class="num">0.6M</td><td class="num cost">$2.07</td><td>Setup + exploration</td></tr>
+            <tr><td>23:44</td><td><code>62c6cfe3</code></td><td>1m</td><td class="num">0.5M</td><td class="num cost">$1.86</td><td>Short test instance</td></tr>
+            <tr><td>23:55</td><td><code>47b4cb51</code></td><td>5m</td><td class="num">1.1M</td><td class="num cost">$3.14</td><td>Setup + exploration</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="3">Total</td><td class="num">620M</td><td class="num cost">$1,058.06</td><td></td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="view-2026-05-28" class="hidden">
+  <header class="hero">
+    <div class="hero-inner">
+      <button class="back-btn" onclick="showMain()">← กลับ</button>
+      <span class="hero-eyebrow">📅 Daily Detail</span>
+      <h1>2026-05-28</h1>
+      <p class="hero-sub">freelance deal · client website · editor-tool setup · Studio activation</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Instances</div>
+          <div class="hero-stat-value">7</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Tokens</div>
+          <div class="hero-stat-value">1,273M</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Cost (est.)</div>
+          <div class="hero-stat-value">$4,332</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <span class="section-eyebrow">📋 Instances</span>
+      <h2>ทุก instance ของวันนี้</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Started</th>
+              <th>Instance</th>
+              <th>Duration</th>
+              <th class="num">Tokens</th>
+              <th class="num">Cost</th>
+              <th>งาน</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>00:04</td><td><code>efa31ec6</code></td><td>7m</td><td class="num">0.5M</td><td class="num cost">$1.95</td><td>Short test instance</td></tr>
+            <tr><td>00:36</td><td><code>7e0986f6</code></td><td>9m</td><td class="num">0.6M</td><td class="num cost">$2.21</td><td>Short test instance</td></tr>
+            <tr><td>01:01</td><td><code>4400da71</code></td><td>18m</td><td class="num">0.9M</td><td class="num cost">$3.44</td><td>Setup + exploration</td></tr>
+            <tr><td>01:23</td><td><code>d2f65c6a</code></td><td>6h 34m</td><td class="num">68M</td><td class="num cost">$128.34</td><td>tmux 02-miguel worker tasks</td></tr>
+            <tr><td>16:43</td><td><code>42e8b6c0</code></td><td>15h 37m</td><td class="num">690M</td><td class="num cost">$1,257.13</td><td>Desktop — editor-tool setup + client website + Studio activation</td></tr>
+            <tr><td>16:54</td><td><code>e0d207c4</code></td><td>11h 1m</td><td class="num">485M</td><td class="num cost">$2,830.72</td><td>tmux 02-miguel — exam prep + Wind Down + ops sync</td></tr>
+            <tr><td>18:02</td><td><code>3dd1c44a</code></td><td>9h 29m</td><td class="num">28M</td><td class="num cost">$107.66</td><td>tmux 03-miguel — decision-maker session</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="3">Total</td><td class="num">1,273M</td><td class="num cost">$4,331.45</td><td></td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="view-2026-05-29" class="hidden">
+  <header class="hero">
+    <div class="hero-inner">
+      <button class="back-btn" onclick="showMain()">← กลับ</button>
+      <span class="hero-eyebrow">📅 Daily Detail</span>
+      <h1>2026-05-29</h1>
+      <p class="hero-sub">Telegram bot · LINE bot · unified-memory · pm2 · cost tracking · HTML dashboard</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Instances</div>
+          <div class="hero-stat-value">23</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Tokens</div>
+          <div class="hero-stat-value">637M</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Cost (est.)</div>
+          <div class="hero-stat-value">$1,534</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <span class="section-eyebrow">📋 Instances</span>
+      <h2>ทุก instance ของวันนี้</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Started</th>
+              <th>Instance</th>
+              <th>Duration</th>
+              <th class="num">Tokens</th>
+              <th class="num">Cost</th>
+              <th>งาน</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>03:38</td><td><code>cba69e48</code></td><td>0h 16m</td><td class="num">5.3M</td><td class="num cost">$17.32</td><td>Desktop — early session startup</td></tr>
+            <tr><td>06:45</td><td><code>3eb268f4</code></td><td>1h 32m</td><td class="num">23M</td><td class="num cost">$64.79</td><td>tmux 02-miguel — editor-tool review</td></tr>
+            <tr><td>06:45</td><td><code>f194fcc9</code></td><td>1h 32m</td><td class="num">15M</td><td class="num cost">$46.61</td><td>tmux 03-miguel — editor-tool review</td></tr>
+            <tr><td>10:56</td><td><code>5fa2b2d5</code></td><td>10h 22m</td><td class="num">239.7M</td><td class="num cost">$546.06</td><td>Desktop — Telegram + LINE bot + shared-core + pm2</td></tr>
+            <tr><td>11:01</td><td><code>dc9ebc7e</code></td><td>9h 46m</td><td class="num">145.8M</td><td class="num cost">$369.91</td><td>tmux — LINE bot + unified-memory consolidator</td></tr>
+            <tr><td>11:02</td><td><code>4f8c8bd9</code></td><td>10h 12m</td><td class="num">205.9M</td><td class="num cost">$467.81</td><td>tmux 02/03 — Telegram bot + shared core worker</td></tr>
+            <tr><td>14:45</td><td><code>c115c3a3</code></td><td>&lt;1m</td><td class="num">0.0M</td><td class="num cost">$0.66</td><td>Short test instance</td></tr>
+            <tr><td>14:55</td><td><code>778f9767</code></td><td>&lt;1m</td><td class="num">0.0M</td><td class="num cost">$0.69</td><td>Short test instance</td></tr>
+            <tr><td>15:03</td><td><code>d6c74641</code></td><td>0h 7m</td><td class="num">0.6M</td><td class="num cost">$4.34</td><td>Setup + exploration</td></tr>
+            <tr><td>15:15</td><td><code>8a0a40fd</code></td><td>&lt;1m</td><td class="num">0.2M</td><td class="num cost">$1.84</td><td>Short test instance</td></tr>
+            <tr><td>15:28</td><td><code>a5690f70</code></td><td>&lt;1m</td><td class="num">0.0M</td><td class="num cost">$0.29</td><td>Short test instance</td></tr>
+            <tr><td>15:32</td><td><code>39ef2ec9</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$1.22</td><td>Short test instance</td></tr>
+            <tr><td>15:46</td><td><code>00307fa4</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$0.83</td><td>Short test instance</td></tr>
+            <tr><td>16:32</td><td><code>32c734e3</code></td><td>4h 26m</td><td class="num">0.2M</td><td class="num cost">$3.28</td><td>Setup + exploration</td></tr>
+            <tr><td>16:44</td><td><code>ef1144c7</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$1.49</td><td>Short test instance</td></tr>
+            <tr><td>16:45</td><td><code>5e0af6f5</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$0.86</td><td>Short test instance</td></tr>
+            <tr><td>16:49</td><td><code>dcbad295</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$0.78</td><td>Short test instance</td></tr>
+            <tr><td>16:51</td><td><code>f24eb001</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$0.78</td><td>Short test instance</td></tr>
+            <tr><td>16:52</td><td><code>13b9e5a9</code></td><td>&lt;1m</td><td class="num">0.0M</td><td class="num cost">$0.54</td><td>Short test instance</td></tr>
+            <tr><td>16:55</td><td><code>765e6002</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$0.66</td><td>Short test instance</td></tr>
+            <tr><td>21:05</td><td><code>a4c09b30</code></td><td>&lt;1m</td><td class="num">0.0M</td><td class="num cost">$0.57</td><td>Short test instance</td></tr>
+            <tr><td>21:05</td><td><code>1afd6657</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$0.71</td><td>Short test instance</td></tr>
+            <tr><td>21:11</td><td><code>e288ccdb</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$1.48</td><td>Short test instance</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="3">Total</td><td class="num">637M</td><td class="num cost">$1,533.53</td><td></td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="view-2026-05-30" class="hidden">
+  <header class="hero">
+    <div class="hero-inner">
+      <button class="back-btn" onclick="showMain()">← กลับ</button>
+      <span class="hero-eyebrow">📅 Daily Detail</span>
+      <h1>2026-05-30</h1>
+      <p class="hero-sub">Session 4 close · Telegram + LINE + shared-core wrap-up</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Instances</div>
+          <div class="hero-stat-value">—</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Tokens</div>
+          <div class="hero-stat-value">—</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Cost (est.)</div>
+          <div class="hero-stat-value">—</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <span class="section-eyebrow">📋 Instances</span>
+      <h2>ทุก instance ของวันนี้</h2>
+      <p class="mute">ข้อมูลจะอัปเดตหลัง session 4 close</p>
+    </section>
+  </main>
+</div>
+
+<footer class="footer">
+  <p>Miguel Oracle · Cost Tracking · Updated 2026-05-30</p>
+</footer>
+
+<script>
+  (function() {
+    const saved = localStorage.getItem('cost-tracking-theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+
+    const btn = document.getElementById('theme-toggle');
+    const icon = document.getElementById('theme-icon');
+
+    function updateIcon() {
+      const current = document.documentElement.getAttribute('data-theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      if (current === 'dark') {
+        btn.style.background = 'rgba(255,255,255,0.08)';
+        btn.style.border = '1px solid rgba(255,255,255,0.15)';
+        btn.style.color = '#ededed';
+      } else {
+        btn.style.background = 'rgba(10,21,48,0.6)';
+        btn.style.border = '1px solid rgba(255,255,255,0.15)';
+        btn.style.color = 'white';
+      }
+    }
+
+    btn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('cost-tracking-theme', next);
+      updateIcon();
+    });
+
+    updateIcon();
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateIcon);
+  })();
+
+  function showDay(day) {
+    document.getElementById('view-main').classList.add('hidden');
+    document.querySelectorAll('[id^="view-2026"]').forEach(v => v.classList.add('hidden'));
+    const target = document.getElementById('view-' + day);
+    if (target) {
+      target.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      location.hash = day;
+    }
+  }
+
+  function showMain() {
+    document.querySelectorAll('[id^="view-2026"]').forEach(v => v.classList.add('hidden'));
+    document.getElementById('view-main').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    history.replaceState(null, '', location.pathname);
+  }
+
+  document.querySelectorAll('.day-row').forEach(row => {
+    row.addEventListener('click', () => showDay(row.dataset.day));
+  });
+
+  if (location.hash && location.hash.match(/^#2026-/)) {
+    showDay(location.hash.slice(1));
+  }
+
+  window.addEventListener('hashchange', () => {
+    if (location.hash && location.hash.match(/^#2026-/)) {
+      showDay(location.hash.slice(1));
+    } else {
+      showMain();
+    }
+  });
+</script>
+
+</body>
+</html>
