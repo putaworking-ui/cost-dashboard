@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Miguel Oracle — Cost Tracking</title>
+  <title>Miguel Oracle โ€” Cost Tracking</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -88,7 +88,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    body, .card, .table-wrap, table, thead, tbody, td, th, .footer, .hero, .day-row, .pricing-card, .compare-card {
+    body, .card, .table-wrap, table, thead, tbody, td, th, .footer, .hero, .pricing-card, .compare-card {
       transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
     }
 
@@ -293,22 +293,6 @@
     td.cost { font-weight: 600; }
     td.date { font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
 
-    .day-row { cursor: pointer; }
-    .day-row:hover { background: var(--row-hover); }
-    .day-row td:last-child::after {
-      content: '→';
-      color: var(--primary);
-      font-weight: 700;
-      margin-left: 8px;
-      opacity: 0.5;
-      transition: transform 0.2s, opacity 0.2s;
-      display: inline-block;
-    }
-    .day-row:hover td:last-child::after {
-      opacity: 1;
-      transform: translateX(4px);
-    }
-
     tfoot td {
       background: var(--surface);
       font-weight: 700;
@@ -377,24 +361,6 @@
       opacity: 0.7;
     }
 
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 100px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      margin-bottom: 16px;
-      transition: background 0.2s;
-      font-family: inherit;
-    }
-    .back-btn:hover { background: rgba(255,255,255,0.1); }
-
     .footer {
       border-top: 1px solid var(--hairline);
       padding: 32px;
@@ -444,29 +410,26 @@
   transition: all 0.25s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 ">
-  <span id="theme-icon">🌙</span>
+  <span id="theme-icon">๐</span>
 </button>
-
-<!-- ============== MAIN VIEW ============== -->
-<div id="view-main">
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="hero-eyebrow">📊 Cost Tracking</span>
+    <span class="hero-eyebrow">๐“ Cost Tracking</span>
     <h1>Miguel Oracle<br>Token Usage</h1>
-    <p class="hero-sub">รายงานการใช้ Claude Code — รายวัน รวมยอด คลิกแต่ละวันเพื่อดูรายละเอียด</p>
+    <p class="hero-sub">เธฃเธฒเธขเธเธฒเธเธเธฒเธฃเนเธเน Claude Code โ€” เธฃเธฒเธขเธงเธฑเธ เธฃเธงเธกเธขเธญเธ” ยท เธเธณเธเธงเธ“ per-model เธ”เนเธงเธข ccusage (เนเธกเนเธเธขเธณเธ•เธฒเธก Anthropic pricing เธเธฃเธดเธ)</p>
     <div class="hero-stats">
       <div class="hero-stat">
         <div class="hero-stat-label">Days</div>
-        <div class="hero-stat-value">5</div>
+        <div class="hero-stat-value">8</div>
       </div>
       <div class="hero-stat">
         <div class="hero-stat-label">Total Tokens</div>
-        <div class="hero-stat-value">3.02B</div>
+        <div class="hero-stat-value">1.94B</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-label">Cost (est.)</div>
-        <div class="hero-stat-value">$8,337</div>
+        <div class="hero-stat-label">Cost (API-equiv.)</div>
+        <div class="hero-stat-value">$1,378</div>
       </div>
     </div>
   </div>
@@ -475,8 +438,9 @@
 <main class="container">
 
   <section>
-    <span class="section-eyebrow">💵 API Pricing</span>
-    <h2>Anthropic Opus 4.7</h2>
+    <span class="section-eyebrow">๐’ต API Pricing</span>
+    <h2>Anthropic โ€” per-model</h2>
+    <p class="mute">Main session = Opus ยท subagent เธเธฒเธเธ•เธฑเธง = Haiku/Sonnet ยท ccusage เธเธดเธ”เนเธขเธเธ•เธฒเธก model เธเธฃเธดเธ (เธ•เธฒเธฃเธฒเธเธเธทเธญ rate เธเธญเธ Opus เธเธถเนเธเน€เธเนเธเธ•เธฑเธงเธซเธฅเธฑเธ)</p>
     <div class="pricing-grid">
       <div class="pricing-card">
         <div class="pricing-label">Input</div>
@@ -502,370 +466,128 @@
   </section>
 
   <section>
-    <span class="section-eyebrow">📅 Daily Breakdown</span>
-    <h2>การใช้รายวัน</h2>
+    <span class="section-eyebrow">๐“… Daily Breakdown</span>
+    <h2>เธเธฒเธฃเนเธเนเธฃเธฒเธขเธงเธฑเธ</h2>
 
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
             <th>Date</th>
-            <th class="num">Cost (est.)</th>
+            <th class="num">Cost (API-equiv.)</th>
             <th class="num">Tokens</th>
-            <th>งานหลัก</th>
+            <th>เธเธฒเธเธซเธฅเธฑเธ</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="day-row" data-day="2026-05-27">
+          <tr>
             <td class="date">2026-05-27</td>
-            <td class="num cost">$1,058</td>
-            <td class="num">620M</td>
-            <td>Oracle birth (Miguel + content awakening) · content content pipeline · exam prep study plan</td>
+            <td class="num cost">$243</td>
+            <td class="num">420M</td>
+            <td>Oracle birth (Miguel + content awakening) ยท content content pipeline ยท exam prep study plan</td>
           </tr>
-          <tr class="day-row" data-day="2026-05-28">
+          <tr>
             <td class="date">2026-05-28</td>
-            <td class="num cost">$4,332</td>
-            <td class="num">1,273M</td>
-            <td>freelance deal closed · client site website (content creator) · editor tool Oracle birth · video tooling activation</td>
+            <td class="num cost">$416</td>
+            <td class="num">561M</td>
+            <td>freelance deal closed ยท client site website (เนเธญเนเธเธฒเธง) ยท editor tool Oracle birth ยท video tooling activation</td>
           </tr>
-          <tr class="day-row" data-day="2026-05-29">
+          <tr>
             <td class="date">2026-05-29</td>
-            <td class="num cost">$1,534</td>
-            <td class="num">637M</td>
-            <td>Telegram bot · LINE bot · unified-memory · pm2 · cost tracking · HTML dashboard</td>
+            <td class="num cost">$301</td>
+            <td class="num">411M</td>
+            <td>Telegram bot ยท LINE bot ยท unified-memory ยท pm2 ยท cost tracking ยท HTML dashboard</td>
           </tr>
-          <tr class="day-row" data-day="2026-05-30">
+          <tr>
             <td class="date">2026-05-30</td>
-            <td class="num cost">$964</td>
-            <td class="num">429M</td>
-            <td>Session 4 close · persona fix · cost-dashboard deploy · /rrr + session wrap-up</td>
+            <td class="num cost">$181</td>
+            <td class="num">224M</td>
+            <td>Session 4 close ยท persona fix ยท cost-dashboard deploy ยท /rrr + session wrap-up</td>
           </tr>
-          <tr class="day-row" data-day="2026-05-31">
+          <tr>
             <td class="date">2026-05-31</td>
-            <td class="num cost">$449</td>
-            <td class="num">61M</td>
-            <td>Session close (Content Learning Brief queued) · reboot recovery · cost + retro backfill</td>
+            <td class="num cost">$59</td>
+            <td class="num">86M</td>
+            <td>Session close (Content Learning Brief queued) ยท reboot recovery ยท cost + retro backfill</td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-01</td>
+            <td class="num cost">$33</td>
+            <td class="num">30M</td>
+            <td>เธงเธฑเธเนเธเนเธเธฒเธเน€เธเธฒ โ€” session เธ•เนเธญเน€เธเธทเนเธญเธ เนเธกเนเธกเธต commit</td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-02</td>
+            <td class="num cost">$115</td>
+            <td class="num">161M</td>
+            <td>content viewer-psychology playbook + research ยท Impeccable skill ยท close-routine update</td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-03</td>
+            <td class="num cost">$29</td>
+            <td class="num">48M</td>
+            <td>content Buy-Borrow-Die review (เนเธ•เธ 3 เธเธญเธเน€เธ—เธเธ•เน) ยท editor tool freelance portal + web-craft ยท cost recompute <span class="mute">(เธ–เธถเธ ~08:00)</span></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td>Total · 5 days</td>
-            <td class="num cost">$8,337</td>
-            <td class="num">3,020M</td>
+            <td>Total ยท 8 days</td>
+            <td class="num cost">$1,378</td>
+            <td class="num">1,942M</td>
             <td></td>
           </tr>
         </tfoot>
       </table>
     </div>
+    <p class="mute" style="margin-top:16px;font-size:13px;">๐’ก เธ•เธฑเธงเน€เธฅเธเน€เธ”เธดเธก (27-31 เธ.เธ. เธฃเธงเธก $8,337) overcount ~10x เน€เธเธฃเธฒเธฐเธเธดเธ”เธ—เธธเธ token เน€เธเนเธ Opus rate โ€” recompute เนเธซเธกเน per-model เธ”เนเธงเธข ccusage เนเธฅเนเธง (2026-06-03)</p>
   </section>
 
   <section>
-    <span class="section-eyebrow">⚡ Optimize Next Time</span>
-    <h2>วิธีลด token ใน session ต่อไป</h2>
+    <span class="section-eyebrow">โก Optimize Next Time</span>
+    <h2>เธงเธดเธเธตเธฅเธ” token เนเธ session เธ•เนเธญเนเธ</h2>
     <ul class="clean">
-      <li><span class="dot" style="background:var(--brand-green)"></span><span>Smart cron suppression — ถ้า peek เห็น "Silent" ซ้ำ ไม่ต้อง log ทุกครั้ง</span></li>
-      <li><span class="dot" style="background:var(--brand-green)"></span><span>Shorter peek prompt — ปัจจุบัน ~30 lines × 80 fires = cache reads เยอะ</span></li>
-      <li><span class="dot" style="background:var(--brand-green)"></span><span>ใช้ <code>/clear</code> ระหว่าง idle phases สำหรับ session ที่ไม่ active</span></li>
-      <li><span class="dot" style="background:var(--brand-green)"></span><span>Selective subagent spawning — verify need ก่อน spawn, ไม่ใช่ spawn แล้วค่อยคิด</span></li>
-      <li><span class="dot" style="background:var(--brand-green)"></span><span>Investigate marathon sessions — sessions ที่ &gt; 10 ชม. กิน cache reads แบบ exponential</span></li>
+      <li><span class="dot" style="background:var(--brand-green)"></span><span><strong>Cache read เธเธทเธญเธ•เธฑเธงเธเธดเธเธซเธฅเธฑเธ</strong> โ€” 1.89B เธเธฒเธ 1.94B tokens เน€เธเนเธ cache read (session เธขเธฒเธง context เธชเธฐเธชเธก)</span></li>
+      <li><span class="dot" style="background:var(--brand-green)"></span><span>เนเธเน <code>/clear</code> เธฃเธฐเธซเธงเนเธฒเธ idle phases โ€” เธ•เธฑเธ” context bloat เธ—เธตเนเธ—เธณเนเธซเน cache read เธเธธเนเธ</span></li>
+      <li><span class="dot" style="background:var(--brand-green)"></span><span>Investigate marathon sessions โ€” session &gt; 10 เธเธก. เธเธดเธ cache reads เนเธเธ exponential</span></li>
+      <li><span class="dot" style="background:var(--brand-green)"></span><span>Selective subagent spawning โ€” verify need เธเนเธญเธ spawn</span></li>
+      <li><span class="dot" style="background:var(--brand-green)"></span><span>Smart cron suppression โ€” peek เน€เธซเนเธ "Silent" เธเนเธณ เนเธกเนเธ•เนเธญเธ log เธ—เธธเธเธเธฃเธฑเนเธ</span></li>
     </ul>
   </section>
 
   <section>
-    <span class="section-eyebrow">🔄 Auto-Update</span>
-    <h2>Protocol ปิด session</h2>
+    <span class="section-eyebrow">๐” Auto-Update</span>
+    <h2>Protocol เธเธดเธ” session</h2>
     <div class="card">
       <ul class="clean">
-        <li><span class="dot"></span><span><strong>1. /rrr</strong> — retrospective + lesson + metrics + self-audit</span></li>
-        <li><span class="dot"></span><span><strong>2. /forward</strong> — handoff + pending list</span></li>
-        <li><span class="dot"></span><span><strong>3. 💰 Cost summary</strong> — update file นี้ + recompute totals</span></li>
-        <li><span class="dot"></span><span><strong>4. Commit</strong> — auto-chain, ไม่รอ approve</span></li>
+        <li><span class="dot"></span><span><strong>1. /rrr</strong> โ€” retrospective + lesson + metrics + self-audit</span></li>
+        <li><span class="dot"></span><span><strong>2. /forward</strong> โ€” handoff + pending list</span></li>
+        <li><span class="dot"></span><span><strong>3. ๐’ฐ Cost summary</strong> โ€” <code>ccusage daily</code> โ’ update file เธเธตเน + recompute totals</span></li>
+        <li><span class="dot"></span><span><strong>4. Commit</strong> โ€” auto-chain, เนเธกเนเธฃเธญ approve</span></li>
       </ul>
     </div>
   </section>
 
   <section style="margin-bottom: 0;">
-    <span class="section-eyebrow">📦 Plan</span>
+    <span class="section-eyebrow">๐“ฆ Plan</span>
     <h2>Max Plan vs Pay-Per-Use</h2>
     <div class="compare-grid">
       <div class="compare-card max-plan">
         <div class="compare-card-label">Max Plan (paid)</div>
         <div class="compare-card-value">$200<span style="font-size:18px;font-weight:600;opacity:0.6">/mo</span></div>
-        <div class="compare-card-sub">Flat fee — ไม่ขึ้นกับ usage</div>
+        <div class="compare-card-sub">Flat fee โ€” เนเธกเนเธเธถเนเธเธเธฑเธ usage (เธ—เธตเนเธเนเธฒเธขเธเธฃเธดเธ)</div>
       </div>
       <div class="compare-card pay-use">
-        <div class="compare-card-label">Pay-Per-Use (estimated)</div>
-        <div class="compare-card-value">$8,337</div>
-        <div class="compare-card-sub">ถ้าจ่ายตาม API rate ใน 5 วัน</div>
+        <div class="compare-card-label">Pay-Per-Use (API-equiv.)</div>
+        <div class="compare-card-value">$1,378</div>
+        <div class="compare-card-sub">เธ–เนเธฒเธเนเธฒเธขเธ•เธฒเธก API rate เนเธ 8 เธงเธฑเธ</div>
       </div>
     </div>
   </section>
 
 </main>
 
-</div>
-
-<!-- ============== DAILY DETAIL VIEWS ============== -->
-
-<div id="view-2026-05-27" class="hidden">
-  <header class="hero">
-    <div class="hero-inner">
-      <button class="back-btn" onclick="showMain()">← กลับ</button>
-      <span class="hero-eyebrow">📅 Daily Detail</span>
-      <h1>2026-05-27</h1>
-      <p class="hero-sub">Oracle birth + content pipeline + exam prep plan</p>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-label">Instances</div>
-          <div class="hero-stat-value">8</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-label">Tokens</div>
-          <div class="hero-stat-value">620M</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-label">Cost (est.)</div>
-          <div class="hero-stat-value">$1,058</div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
-    <section>
-      <span class="section-eyebrow">📋 Instances</span>
-      <h2>ทุก instance ของวันนี้</h2>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Started</th>
-              <th>Instance</th>
-              <th>Duration</th>
-              <th class="num">Tokens</th>
-              <th class="num">Cost</th>
-              <th>งาน</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>01:17</td><td><code>0cb3a19c</code></td><td>8h 1m</td><td class="num">177M</td><td class="num cost">$319.58</td><td>Oracle birth — Miguel + content awakening</td></tr>
-            <tr><td>18:27</td><td><code>e06c68c6</code></td><td>13h 47m</td><td class="num">440M</td><td class="num cost">$726.82</td><td>content content pipeline + exam prep study plan</td></tr>
-            <tr><td>22:09</td><td><code>45de09fb</code></td><td>&lt;1m</td><td class="num">0.2M</td><td class="num cost">$1.29</td><td>Short test instance</td></tr>
-            <tr><td>22:21</td><td><code>80bd7ce1</code></td><td>&lt;1m</td><td class="num">0.2M</td><td class="num cost">$0.98</td><td>Short test instance</td></tr>
-            <tr><td>22:29</td><td><code>77c5d588</code></td><td>&lt;1m</td><td class="num">0.5M</td><td class="num cost">$2.32</td><td>Short test instance</td></tr>
-            <tr><td>23:08</td><td><code>90d33c74</code></td><td>22m</td><td class="num">0.6M</td><td class="num cost">$2.07</td><td>Setup + exploration</td></tr>
-            <tr><td>23:44</td><td><code>62c6cfe3</code></td><td>1m</td><td class="num">0.5M</td><td class="num cost">$1.86</td><td>Short test instance</td></tr>
-            <tr><td>23:55</td><td><code>47b4cb51</code></td><td>5m</td><td class="num">1.1M</td><td class="num cost">$3.14</td><td>Setup + exploration</td></tr>
-          </tbody>
-          <tfoot>
-            <tr><td colspan="3">Total</td><td class="num">620M</td><td class="num cost">$1,058.06</td><td></td></tr>
-          </tfoot>
-        </table>
-      </div>
-    </section>
-  </main>
-</div>
-
-<div id="view-2026-05-28" class="hidden">
-  <header class="hero">
-    <div class="hero-inner">
-      <button class="back-btn" onclick="showMain()">← กลับ</button>
-      <span class="hero-eyebrow">📅 Daily Detail</span>
-      <h1>2026-05-28</h1>
-      <p class="hero-sub">freelance deal · client site website · editor tool birth · Studio activation</p>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-label">Instances</div>
-          <div class="hero-stat-value">7</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-label">Tokens</div>
-          <div class="hero-stat-value">1,273M</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-label">Cost (est.)</div>
-          <div class="hero-stat-value">$4,332</div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
-    <section>
-      <span class="section-eyebrow">📋 Instances</span>
-      <h2>ทุก instance ของวันนี้</h2>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Started</th>
-              <th>Instance</th>
-              <th>Duration</th>
-              <th class="num">Tokens</th>
-              <th class="num">Cost</th>
-              <th>งาน</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>00:04</td><td><code>efa31ec6</code></td><td>7m</td><td class="num">0.5M</td><td class="num cost">$1.95</td><td>Short test instance</td></tr>
-            <tr><td>00:36</td><td><code>7e0986f6</code></td><td>9m</td><td class="num">0.6M</td><td class="num cost">$2.21</td><td>Short test instance</td></tr>
-            <tr><td>01:01</td><td><code>4400da71</code></td><td>18m</td><td class="num">0.9M</td><td class="num cost">$3.44</td><td>Setup + exploration</td></tr>
-            <tr><td>01:23</td><td><code>d2f65c6a</code></td><td>6h 34m</td><td class="num">68M</td><td class="num cost">$128.34</td><td>tmux 02-miguel worker tasks</td></tr>
-            <tr><td>16:43</td><td><code>42e8b6c0</code></td><td>15h 37m</td><td class="num">690M</td><td class="num cost">$1,257.13</td><td>Desktop — editor tool birth + client site website + Studio activation</td></tr>
-            <tr><td>16:54</td><td><code>e0d207c4</code></td><td>11h 1m</td><td class="num">485M</td><td class="num cost">$2,830.72</td><td>tmux 02-miguel — exam prep replan + Wind Down + ops sync</td></tr>
-            <tr><td>18:02</td><td><code>3dd1c44a</code></td><td>9h 29m</td><td class="num">28M</td><td class="num cost">$107.66</td><td>tmux 03-miguel — decision-maker session</td></tr>
-          </tbody>
-          <tfoot>
-            <tr><td colspan="3">Total</td><td class="num">1,273M</td><td class="num cost">$4,331.45</td><td></td></tr>
-          </tfoot>
-        </table>
-      </div>
-    </section>
-  </main>
-</div>
-
-<div id="view-2026-05-29" class="hidden">
-  <header class="hero">
-    <div class="hero-inner">
-      <button class="back-btn" onclick="showMain()">← กลับ</button>
-      <span class="hero-eyebrow">📅 Daily Detail</span>
-      <h1>2026-05-29</h1>
-      <p class="hero-sub">Telegram bot · LINE bot · unified-memory · pm2 · cost tracking · HTML dashboard</p>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-label">Instances</div>
-          <div class="hero-stat-value">23</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-label">Tokens</div>
-          <div class="hero-stat-value">637M</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-label">Cost (est.)</div>
-          <div class="hero-stat-value">$1,534</div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
-    <section>
-      <span class="section-eyebrow">📋 Instances</span>
-      <h2>ทุก instance ของวันนี้</h2>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Started</th>
-              <th>Instance</th>
-              <th>Duration</th>
-              <th class="num">Tokens</th>
-              <th class="num">Cost</th>
-              <th>งาน</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>03:38</td><td><code>cba69e48</code></td><td>0h 16m</td><td class="num">5.3M</td><td class="num cost">$17.32</td><td>Desktop — early session startup</td></tr>
-            <tr><td>06:45</td><td><code>3eb268f4</code></td><td>1h 32m</td><td class="num">23M</td><td class="num cost">$64.79</td><td>tmux 02-miguel — editor tool MVP review</td></tr>
-            <tr><td>06:45</td><td><code>f194fcc9</code></td><td>1h 32m</td><td class="num">15M</td><td class="num cost">$46.61</td><td>tmux 03-miguel — editor tool MVP review</td></tr>
-            <tr><td>10:56</td><td><code>5fa2b2d5</code></td><td>10h 22m</td><td class="num">239.7M</td><td class="num cost">$546.06</td><td>Desktop — Telegram + LINE bot + shared-core + pm2</td></tr>
-            <tr><td>11:01</td><td><code>dc9ebc7e</code></td><td>9h 46m</td><td class="num">145.8M</td><td class="num cost">$369.91</td><td>tmux — LINE bot + unified-memory consolidator</td></tr>
-            <tr><td>11:02</td><td><code>4f8c8bd9</code></td><td>10h 12m</td><td class="num">205.9M</td><td class="num cost">$467.81</td><td>tmux 02/03 — Telegram bot + shared core worker</td></tr>
-            <tr><td>14:45</td><td><code>c115c3a3</code></td><td>&lt;1m</td><td class="num">0.0M</td><td class="num cost">$0.66</td><td>Short test instance</td></tr>
-            <tr><td>14:55</td><td><code>778f9767</code></td><td>&lt;1m</td><td class="num">0.0M</td><td class="num cost">$0.69</td><td>Short test instance</td></tr>
-            <tr><td>15:03</td><td><code>d6c74641</code></td><td>0h 7m</td><td class="num">0.6M</td><td class="num cost">$4.34</td><td>Setup + exploration</td></tr>
-            <tr><td>15:15</td><td><code>8a0a40fd</code></td><td>&lt;1m</td><td class="num">0.2M</td><td class="num cost">$1.84</td><td>Short test instance</td></tr>
-            <tr><td>15:28</td><td><code>a5690f70</code></td><td>&lt;1m</td><td class="num">0.0M</td><td class="num cost">$0.29</td><td>Short test instance</td></tr>
-            <tr><td>15:32</td><td><code>39ef2ec9</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$1.22</td><td>Short test instance</td></tr>
-            <tr><td>15:46</td><td><code>00307fa4</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$0.83</td><td>Short test instance</td></tr>
-            <tr><td>16:32</td><td><code>32c734e3</code></td><td>4h 26m</td><td class="num">0.2M</td><td class="num cost">$3.28</td><td>Setup + exploration</td></tr>
-            <tr><td>16:44</td><td><code>ef1144c7</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$1.49</td><td>Short test instance</td></tr>
-            <tr><td>16:45</td><td><code>5e0af6f5</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$0.86</td><td>Short test instance</td></tr>
-            <tr><td>16:49</td><td><code>dcbad295</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$0.78</td><td>Short test instance</td></tr>
-            <tr><td>16:51</td><td><code>f24eb001</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$0.78</td><td>Short test instance</td></tr>
-            <tr><td>16:52</td><td><code>13b9e5a9</code></td><td>&lt;1m</td><td class="num">0.0M</td><td class="num cost">$0.54</td><td>Short test instance</td></tr>
-            <tr><td>16:55</td><td><code>765e6002</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$0.66</td><td>Short test instance</td></tr>
-            <tr><td>21:05</td><td><code>a4c09b30</code></td><td>&lt;1m</td><td class="num">0.0M</td><td class="num cost">$0.57</td><td>Short test instance</td></tr>
-            <tr><td>21:05</td><td><code>1afd6657</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$0.71</td><td>Short test instance</td></tr>
-            <tr><td>21:11</td><td><code>e288ccdb</code></td><td>&lt;1m</td><td class="num">0.1M</td><td class="num cost">$1.48</td><td>Short test instance</td></tr>
-          </tbody>
-          <tfoot>
-            <tr><td colspan="3">Total</td><td class="num">637M</td><td class="num cost">$1,533.53</td><td></td></tr>
-          </tfoot>
-        </table>
-      </div>
-    </section>
-  </main>
-</div>
-
-<div id="view-2026-05-30" class="hidden">
-  <header class="hero">
-    <div class="hero-inner">
-      <button class="back-btn" onclick="showMain()">← กลับ</button>
-      <span class="hero-eyebrow">📅 Daily Detail</span>
-      <h1>2026-05-30</h1>
-      <p class="hero-sub">Session 4 close · Telegram + LINE + shared-core wrap-up</p>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-label">Instances</div>
-          <div class="hero-stat-value">9</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-label">Tokens</div>
-          <div class="hero-stat-value">429M</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-label">Cost (est.)</div>
-          <div class="hero-stat-value">$964</div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
-    <section>
-      <span class="section-eyebrow">📋 Instances</span>
-      <h2>ทุก instance ของวันนี้</h2>
-      <p class="mute">9 instances · 429M tokens · ~$964 (close-day: persona fix, cost-dashboard deploy, /rrr + session wrap-up) · คำนวณจาก timestamp จริงรายข้อความ</p>
-    </section>
-  </main>
-</div>
-
-<div id="view-2026-05-31" class="hidden">
-  <header class="hero">
-    <div class="hero-inner">
-      <button class="back-btn" onclick="showMain()">← กลับ</button>
-      <span class="hero-eyebrow">📅 Daily Detail</span>
-      <h1>2026-05-31</h1>
-      <p class="hero-sub">Session close (Content Learning Brief queued) · reboot recovery</p>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-label">Instances</div>
-          <div class="hero-stat-value">10</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-label">Tokens</div>
-          <div class="hero-stat-value">61M</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-label">Cost (est.)</div>
-          <div class="hero-stat-value">$449</div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
-    <section>
-      <span class="section-eyebrow">📋 Instances</span>
-      <h2>ทุก instance ของวันนี้</h2>
-      <p class="mute">10 instances · 61M tokens · ~$449 (วันสั้น: ปิด session ค้าง learning-brief, รีบูต, กู้ session + cost/retro backfill) · ทั้งหมด Opus 4.8 · คำนวณจาก timestamp จริงรายข้อความ (UTC+7)</p>
-    </section>
-  </main>
-</div>
-
 <footer class="footer">
-  <p>Miguel Oracle · Cost Tracking · Updated 2026-05-31</p>
+  <p>Miguel Oracle ยท Cost Tracking ยท per-model via ccusage ยท Updated 2026-06-03</p>
 </footer>
 
 <script>
@@ -879,7 +601,7 @@
     function updateIcon() {
       const current = document.documentElement.getAttribute('data-theme') ||
         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      icon.textContent = current === 'dark' ? '☀️' : '🌙';
+      icon.textContent = current === 'dark' ? 'โ€๏ธ' : '๐';
       if (current === 'dark') {
         btn.style.background = 'rgba(255,255,255,0.08)';
         btn.style.border = '1px solid rgba(255,255,255,0.15)';
@@ -903,41 +625,8 @@
     updateIcon();
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateIcon);
   })();
-
-  function showDay(day) {
-    document.getElementById('view-main').classList.add('hidden');
-    document.querySelectorAll('[id^="view-2026"]').forEach(v => v.classList.add('hidden'));
-    const target = document.getElementById('view-' + day);
-    if (target) {
-      target.classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      location.hash = day;
-    }
-  }
-
-  function showMain() {
-    document.querySelectorAll('[id^="view-2026"]').forEach(v => v.classList.add('hidden'));
-    document.getElementById('view-main').classList.remove('hidden');
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    history.replaceState(null, '', location.pathname);
-  }
-
-  document.querySelectorAll('.day-row').forEach(row => {
-    row.addEventListener('click', () => showDay(row.dataset.day));
-  });
-
-  if (location.hash && location.hash.match(/^#2026-/)) {
-    showDay(location.hash.slice(1));
-  }
-
-  window.addEventListener('hashchange', () => {
-    if (location.hash && location.hash.match(/^#2026-/)) {
-      showDay(location.hash.slice(1));
-    } else {
-      showMain();
-    }
-  });
 </script>
 
 </body>
 </html>
+
